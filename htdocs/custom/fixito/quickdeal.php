@@ -50,12 +50,15 @@ if ($action === 'add') {
 		$projectid = 0;
 		if (isModEnabled('project')) {
 			$project = new Project($db);
+			$project->ref = '(PROV)';
 			$project->title = $title !== '' ? $title : $name;
 			$project->socid = $socid;
 			$project->usage_opportunity = 1;
+			$project->usage_task = 0;
 			$project->opp_amount = $amount;
 			$project->opp_percent = 50;
 			$project->description = $note;
+			$project->status = Project::STATUS_DRAFT;
 			$projectid = $project->create($user);
 			if ($projectid < 0) {
 				$projectid = 0;
@@ -69,6 +72,10 @@ if ($action === 'add') {
 			$propal->fk_project = $projectid;
 		}
 		$propalid = $propal->create($user);
+		if ($propalid > 0 && $amount > 0) {
+			$propal->fetch($propalid);
+			$propal->addline($title !== '' ? $title : $langs->trans('FixitoDealTitle'), $amount, 1, 0);
+		}
 		if ($propalid > 0) {
 			$db->commit();
 			setEventMessages($langs->trans('FixitoDealCreated'), null, 'mesgs');

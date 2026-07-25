@@ -29,6 +29,45 @@ function fixitoAdminPrepareHead()
 }
 
 /**
+ * Apply recommended Iran / Artexx CRM defaults (idempotent).
+ *
+ * @param DoliDB $db Database
+ * @param int    $entity Entity
+ * @return void
+ */
+function fixito_apply_iran_defaults($db, $entity)
+{
+	dolibarr_set_const($db, 'FIXITO_JALALI_ENABLED', '1', 'chaine', 0, '', $entity);
+	dolibarr_set_const($db, 'FIXITO_RTL_ENHANCE', '1', 'chaine', 0, '', $entity);
+	dolibarr_set_const($db, 'MAIN_DEFAULT_TIMEZONE', 'Asia/Tehran', 'chaine', 0, '', $entity);
+	dolibarr_set_const($db, 'MAIN_LANG_DEFAULT', 'fa_IR', 'chaine', 0, '', $entity);
+	dolibarr_set_const($db, 'MAIN_SIZE_LISTE_LIMIT', '25', 'chaine', 0, '', $entity);
+}
+
+/**
+ * Check that Dolibarr scans the custom directory for external modules.
+ *
+ * @return bool
+ */
+function fixito_is_custom_path_configured()
+{
+	global $conf;
+
+	if (!empty($conf->file->dol_document_root) && is_array($conf->file->dol_document_root)) {
+		foreach ($conf->file->dol_document_root as $key => $dir) {
+			if ($key === 'main') {
+				continue;
+			}
+			if (file_exists($dir.'/fixito/core/modules/modFixito.class.php')) {
+				return true;
+			}
+		}
+	}
+
+	return file_exists(DOL_DOCUMENT_ROOT.'/custom/fixito/core/modules/modFixito.class.php');
+}
+
+/**
  * Find third party by phone or name; create if not found.
  *
  * @param DoliDB $db       Database

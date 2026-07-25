@@ -223,6 +223,20 @@ class modFixito extends DolibarrModules
 			'target' => '',
 			'user' => 2,
 		);
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=fixito',
+			'type' => 'left',
+			'titre' => 'FixitoDeployTitle',
+			'mainmenu' => 'fixito',
+			'leftmenu' => 'fixito_deploy',
+			'url' => '/fixito/admin/deploy.php',
+			'langs' => 'fixito@fixito',
+			'position' => 1000 + $r,
+			'enabled' => "isModEnabled('fixito')",
+			'perms' => '$user->admin',
+			'target' => '',
+			'user' => 0,
+		);
 	}
 
 	/**
@@ -235,12 +249,16 @@ class modFixito extends DolibarrModules
 	{
 		global $conf, $langs;
 
+		dol_include_once('/fixito/lib/fixito.lib.php');
+
 		$result = $this->_load_tables('/fixito/sql/');
 		if ($result < 0) {
 			return -1;
 		}
 
 		$this->remove($options);
+
+		fixito_apply_iran_defaults($this->db, $conf->entity);
 
 		$sql = array();
 
