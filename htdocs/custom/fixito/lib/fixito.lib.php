@@ -37,6 +37,9 @@ function fixitoAdminPrepareHead()
  */
 function fixito_apply_iran_defaults($db, $entity)
 {
+	if (!function_exists('dolibarr_set_const')) {
+		require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
+	}
 	dolibarr_set_const($db, 'FIXITO_JALALI_ENABLED', '1', 'chaine', 0, '', $entity);
 	dolibarr_set_const($db, 'FIXITO_RTL_ENHANCE', '1', 'chaine', 0, '', $entity);
 	dolibarr_set_const($db, 'MAIN_DEFAULT_TIMEZONE', 'Asia/Tehran', 'chaine', 0, '', $entity);

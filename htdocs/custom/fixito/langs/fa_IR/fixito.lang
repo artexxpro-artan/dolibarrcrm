@@ -63,3 +63,7 @@ FixitoDeployApplyIran=اعمال تنظیمات ایران (زمان، زبان�
 FixitoModuleActivated=ماژول Fixito فعال شد
 FixitoCrmModulesEnabled=ماژول‌های مشتری، معامله، سفارش، فاکتور، پروژه و کالا بررسی شدند
 FixitoIranDefaultsApplied=تنظیمات پیش‌فرض ایران اعمال شد
+FixitoIranCrmModules=ماژول‌های فروش (مشتری، معامله، سفارش، فاکتور)
+FixitoIranCurrency=ارز پیش‌فرض
+FixitoIranizeFull=ایران‌سازی کامل CRM (فروش + ریال + فارسی)
+FixitoIranCrmDone=پروفایل CRM ایرانی اعمال شد

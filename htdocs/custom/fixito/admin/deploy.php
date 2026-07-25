@@ -16,6 +16,7 @@ if (!$res) {
 
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once __DIR__.'/../lib/fixito.lib.php';
+require_once __DIR__.'/../lib/fixito_iran_crm.lib.php';
 
 /**
  * @var Conf $conf
@@ -62,6 +63,17 @@ if ($action === 'apply_iran') {
 	setEventMessages($langs->trans('FixitoIranDefaultsApplied'), null, 'mesgs');
 }
 
+if ($action === 'iranize_full') {
+	$result = fixito_iranize_crm_full($db, $conf->entity);
+	$msg = $langs->trans('FixitoIranCrmDone');
+	if (!empty($result['modules']['activated'])) {
+		$msg .= ' ('.implode(', ', $result['modules']['activated']).')';
+	}
+	setEventMessages($msg, $result['modules']['errors'], empty($result['modules']['errors']) ? 'mesgs' : 'warnings');
+}
+
+$crmModulesOk = isModEnabled('societe') && isModEnabled('propale') && isModEnabled('commande') && isModEnabled('facture');
+$currencyIrr = (getDolGlobalString('MAIN_MONNAIE') === 'IRR');
 $customOk = fixito_is_custom_path_configured();
 $fixitoOn = isModEnabled('fixito');
 
@@ -73,6 +85,8 @@ print '<table class="noborder centpercent">';
 print '<tr class="liste_titre"><td>'.$langs->trans('FixitoDeployCheck').'</td><td>'.$langs->trans('Status').'</td></tr>';
 print '<tr class="oddeven"><td>'.$langs->trans('FixitoDeployCustomPath').'</td><td>'.($customOk ? img_picto('', 'tick') : img_picto('', 'warning').' '.$langs->trans('FixitoDeployCustomPathHelp')).'</td></tr>';
 print '<tr class="oddeven"><td>'.$langs->trans('ModuleFixitoName').'</td><td>'.($fixitoOn ? img_picto('', 'tick') : $langs->trans('FixitoDeployNotActive')).'</td></tr>';
+print '<tr class="oddeven"><td>'.$langs->trans('FixitoIranCrmModules').'</td><td>'.($crmModulesOk ? img_picto('', 'tick') : img_picto('', 'warning')).'</td></tr>';
+print '<tr class="oddeven"><td>'.$langs->trans('FixitoIranCurrency').'</td><td>'.($currencyIrr ? 'IRR '.img_picto('', 'tick') : dol_escape_htmltag(getDolGlobalString('MAIN_MONNAIE'))).'</td></tr>';
 print '</table><br>';
 
 if (!$customOk) {
@@ -89,6 +103,12 @@ if (!$fixitoOn && $customOk) {
 	print '<input class="button" type="submit" value="'.$langs->trans('FixitoDeployActivate').'">';
 	print '</form>';
 }
+
+print '<form class="inline-block" method="POST" action="'.$_SERVER['PHP_SELF'].'">';
+print '<input type="hidden" name="token" value="'.$token.'">';
+print '<input type="hidden" name="action" value="iranize_full">';
+print '<input class="button buttonforaction" type="submit" value="'.$langs->trans('FixitoIranizeFull').'">';
+print '</form>';
 
 print '<form class="inline-block" method="POST" action="'.$_SERVER['PHP_SELF'].'">';
 print '<input type="hidden" name="token" value="'.$token.'">';
