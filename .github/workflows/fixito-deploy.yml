@@ -19,7 +19,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.repository == 'artexxpro-artan/dolibarrcrm'
+    if: github.repository == 'artexxpro-artan/dolibarrcrm' && secrets.DEPLOY_SSH_HOST != ''
     steps:
       - name: Deploy on server
         uses: appleboy/ssh-action@v1.2.0

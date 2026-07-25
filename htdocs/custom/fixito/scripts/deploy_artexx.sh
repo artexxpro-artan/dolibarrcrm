@@ -3,7 +3,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../../../.." && pwd)"
 
 if [[ -f "${REPO_ROOT}/deploy/artexxpro/deploy.sh" ]]; then
 	exec env FIXITO_WORKDIR="${DOLIBARR_ROOT:-/opt/cicd/apps/dolibarrcrm}" \
