@@ -2,8 +2,17 @@
 # Deploy Fixito on dolibarrcrm.artexxpro.ir (run on server as deploy user)
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
+
+if [[ -f "${REPO_ROOT}/deploy/artexxpro/deploy.sh" ]]; then
+	exec env FIXITO_WORKDIR="${DOLIBARR_ROOT:-/opt/cicd/apps/dolibarrcrm}" \
+		FIXITO_GIT_BRANCH="${BRANCH:-develop}" \
+		bash "${REPO_ROOT}/deploy/artexxpro/deploy.sh"
+fi
+
 DOLIBARR_ROOT="${DOLIBARR_ROOT:-/var/www/dolibarrcrm/htdocs}"
-BRANCH="${BRANCH:-cursor/fixito-iran-crm}"
+BRANCH="${BRANCH:-develop}"
 
 echo "==> Pull latest code (${BRANCH})"
 cd "${DOLIBARR_ROOT}/.."
@@ -26,5 +35,4 @@ echo "==> Fixito files"
 test -f "${DOLIBARR_ROOT}/custom/fixito/core/modules/modFixito.class.php"
 
 echo "==> Done. Open as admin:"
-echo "    https://dolibarrcrm.artexxpro.ir/custom/fixito/admin/deploy.php"
-echo "    (or /fixito/admin/deploy.php if alt root is configured)"
+echo "    https://dolibarrcrm.artexxpro.ir/fixito/admin/deploy.php"

@@ -15,6 +15,10 @@
   "network": "traefik-public",
   "traefik_output": "fixito-dolibarrcrm.yml",
   "traefik_generate": true,
+  "deploy_script": "deploy/artexxpro/deploy.sh",
+  "post_deploy": [
+    "docker exec dolibarrcrm php /var/www/html/custom/fixito/scripts/iranize_crm.php"
+  ],
   "containers": ["dolibarrcrm"],
   "source": "fixito",
   "git": {

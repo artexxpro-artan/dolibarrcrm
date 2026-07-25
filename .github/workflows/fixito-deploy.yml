@@ -1,0 +1,43 @@
+# Deploy dolibarrcrm to Artexx via Fixito workdir (SSH).
+# Required repo secrets: DEPLOY_SSH_HOST, DEPLOY_SSH_USER, DEPLOY_SSH_KEY
+# Optional: DEPLOY_SSH_PORT (default 22), FIXITO_WORKDIR (default /opt/cicd/apps/dolibarrcrm)
+
+name: Fixito deploy
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'htdocs/custom/fixito/**'
+      - 'deploy/artexxpro/**'
+  workflow_dispatch:
+
+concurrency:
+  group: fixito-dolibarrcrm
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.repository == 'artexxpro-artan/dolibarrcrm'
+    steps:
+      - name: Deploy on server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            WORKDIR="${{ vars.FIXITO_WORKDIR || '/opt/cicd/apps/dolibarrcrm' }}"
+            cd "$WORKDIR"
+            git fetch origin develop
+            git checkout develop
+            git pull --ff-only origin develop
+            chmod +x deploy/artexxpro/deploy.sh
+            FIXITO_WORKDIR="$WORKDIR" bash deploy/artexxpro/deploy.sh
+            if docker ps --format '{{.Names}}' | grep -qx fixito-app; then
+              docker exec fixito-app php artisan fixito:discover --write || true
+            fi
