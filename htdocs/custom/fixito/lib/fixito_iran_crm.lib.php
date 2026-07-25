@@ -25,6 +25,9 @@ function fixito_iran_crm_module_classes()
 		'modProjet',
 		'modBanque',
 		'modAgenda',
+		'modStock',
+		'modTicket',
+		'modFicheinter',
 		'modFixito',
 	);
 }
@@ -93,6 +96,7 @@ function fixito_iran_crm_apply_constants($db, $entity)
 		'FACTURE_TVAOPTION' => '0',
 		'PRODUIT_MULTIPRICES' => '0',
 		'SOCIETE_CODECLIENT_ADDON' => 'mod_codeclient_leopard',
+		'MAIN_LANDING_PAGE' => '/fixito/fixitoindex.php',
 	);
 
 	foreach ($consts as $name => $value) {

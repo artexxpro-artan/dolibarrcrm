@@ -42,9 +42,26 @@ function fixito_apply_iran_defaults($db, $entity)
 	}
 	dolibarr_set_const($db, 'FIXITO_JALALI_ENABLED', '1', 'chaine', 0, '', $entity);
 	dolibarr_set_const($db, 'FIXITO_RTL_ENHANCE', '1', 'chaine', 0, '', $entity);
+	dolibarr_set_const($db, 'FIXITO_MODERN_UI', '1', 'chaine', 0, '', $entity);
 	dolibarr_set_const($db, 'MAIN_DEFAULT_TIMEZONE', 'Asia/Tehran', 'chaine', 0, '', $entity);
 	dolibarr_set_const($db, 'MAIN_LANG_DEFAULT', 'fa_IR', 'chaine', 0, '', $entity);
 	dolibarr_set_const($db, 'MAIN_SIZE_LISTE_LIMIT', '25', 'chaine', 0, '', $entity);
+	dolibarr_set_const($db, 'MAIN_LANDING_PAGE', '/fixito/fixitoindex.php', 'chaine', 0, '', $entity);
+}
+
+/**
+ * Body CSS classes for Fixito modern shell pages.
+ *
+ * @param string $extra Extra classes
+ * @return string
+ */
+function fixito_llx_body_class($extra = '')
+{
+	$classes = 'fixito-modern-ui';
+	if ($extra !== '') {
+		$classes .= ' '.trim($extra);
+	}
+	return $classes;
 }
 
 /**

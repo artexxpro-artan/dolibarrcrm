@@ -90,10 +90,14 @@ if ($action === 'delete' && $id > 0 && $user->hasRight('fixito', 'warranty', 'de
 }
 
 $title = ($action === 'create') ? $langs->trans('FixitoNewWarranty') : $object->ref;
-llxHeader('', $title);
+llxHeader('', $title, '', '', 0, 0, '', '', '', fixito_llx_body_class('fixito-page fixito-form-page'));
+
+require_once __DIR__.'/lib/fixito_hub.lib.php';
+fixito_print_hub_nav($langs, 'support');
+print '<div class="fixito-page-content">';
 
 if ($action === 'create' || $action === 'edit') {
-	print load_fiche_titre($title, '', 'fa-shield');
+	print '<div class="fixito-form-panel fixito-form">';
 	$formaction = ($action === 'create') ? 'add' : 'update';
 	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -130,6 +134,7 @@ if ($action === 'create' || $action === 'edit') {
 	print '</table>';
 	print '<div class="center"><input class="button" type="submit" value="'.$langs->trans('FixitoSaveWarranty').'"></div>';
 	print '</form>';
+	print '</div>';
 } else {
 	print load_fiche_titre($object->ref, '', 'fa-shield');
 	print '<div class="fichecenter">';
@@ -159,6 +164,8 @@ if ($action === 'create' || $action === 'edit') {
 	print '</div>';
 	print '</div>';
 }
+
+print '</div>';
 
 llxFooter();
 $db->close();

@@ -59,6 +59,7 @@ class modFixito extends DolibarrModules
 			),
 			'js' => array(
 				'/fixito/js/fixito_jalali.js.php',
+				'/fixito/js/fixito_ui.js.php',
 			),
 			'hooks' => array(
 				'data' => array(
@@ -84,6 +85,7 @@ class modFixito extends DolibarrModules
 			1 => array('FIXITO_JALALI_ENABLED', 'chaine', '1', 'Enable Jalali calendar display', 0, 'current', 0),
 			2 => array('FIXITO_RTL_ENHANCE', 'chaine', '1', 'Enable RTL UI enhancements', 0, 'current', 0),
 			3 => array('FIXITO_DEFAULT_WARRANTY_MONTHS', 'chaine', '12', 'Default warranty duration in months', 0, 'current', 0),
+			4 => array('FIXITO_MODERN_UI', 'chaine', '1', 'Enable Fixito modern dashboard UI', 0, 'current', 0),
 		);
 
 		$this->overwrite_translation = array(
@@ -160,6 +162,62 @@ class modFixito extends DolibarrModules
 			'mainmenu' => 'fixito',
 			'leftmenu' => 'fixito_home',
 			'url' => '/fixito/fixitoindex.php',
+			'langs' => 'fixito@fixito',
+			'position' => 1000 + $r,
+			'enabled' => "isModEnabled('fixito')",
+			'perms' => '$user->hasRight("fixito", "fixito", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=fixito',
+			'type' => 'left',
+			'titre' => 'FixitoHubSales',
+			'mainmenu' => 'fixito',
+			'leftmenu' => 'fixito_hub_sales',
+			'url' => '/fixito/hub.php?branch=sales',
+			'langs' => 'fixito@fixito',
+			'position' => 1000 + $r,
+			'enabled' => "isModEnabled('fixito')",
+			'perms' => '$user->hasRight("fixito", "fixito", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=fixito',
+			'type' => 'left',
+			'titre' => 'FixitoHubSupport',
+			'mainmenu' => 'fixito',
+			'leftmenu' => 'fixito_hub_support',
+			'url' => '/fixito/hub.php?branch=support',
+			'langs' => 'fixito@fixito',
+			'position' => 1000 + $r,
+			'enabled' => "isModEnabled('fixito')",
+			'perms' => '$user->hasRight("fixito", "fixito", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=fixito',
+			'type' => 'left',
+			'titre' => 'FixitoHubAccounting',
+			'mainmenu' => 'fixito',
+			'leftmenu' => 'fixito_hub_accounting',
+			'url' => '/fixito/hub.php?branch=accounting',
+			'langs' => 'fixito@fixito',
+			'position' => 1000 + $r,
+			'enabled' => "isModEnabled('fixito')",
+			'perms' => '$user->hasRight("fixito", "fixito", "read")',
+			'target' => '',
+			'user' => 2,
+		);
+		$this->menu[$r++] = array(
+			'fk_menu' => 'fk_mainmenu=fixito',
+			'type' => 'left',
+			'titre' => 'FixitoHubStock',
+			'mainmenu' => 'fixito',
+			'leftmenu' => 'fixito_hub_stock',
+			'url' => '/fixito/hub.php?branch=stock',
 			'langs' => 'fixito@fixito',
 			'position' => 1000 + $r,
 			'enabled' => "isModEnabled('fixito')",

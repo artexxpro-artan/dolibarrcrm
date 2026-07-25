@@ -10,6 +10,7 @@ if (!$res) {
 }
 
 require_once __DIR__.'/class/warranty.class.php';
+require_once __DIR__.'/lib/fixito.lib.php';
 require_once __DIR__.'/lib/fixito_jalali.lib.php';
 
 /**
@@ -27,10 +28,13 @@ if (!$user->hasRight('fixito', 'fixito', 'read')) {
 
 $search = GETPOST('search', 'alphanohtml');
 
-llxHeader('', $langs->trans('FixitoWarranty'));
+llxHeader('', $langs->trans('FixitoWarranty'), '', '', 0, 0, '', '', '', fixito_llx_body_class('fixito-page'));
 
-print load_fiche_titre($langs->trans('FixitoWarranty'), '', 'fa-shield');
+require_once __DIR__.'/lib/fixito_hub.lib.php';
+fixito_print_hub_nav($langs, 'support');
 
+print '<div class="fixito-page-content">';
+print '<div class="fixito-form-panel">';
 print '<form method="GET">';
 print '<input class="minwidth300" type="search" name="search" placeholder="'.$langs->trans('FixitoSearchWarranty').'" value="'.dol_escape_htmltag($search).'">';
 print ' <input class="button" type="submit" value="'.$langs->trans('Search').'">';
@@ -91,6 +95,7 @@ if ($resql) {
 }
 
 print '</table>';
+print '</div></div>';
 
 llxFooter();
 $db->close();

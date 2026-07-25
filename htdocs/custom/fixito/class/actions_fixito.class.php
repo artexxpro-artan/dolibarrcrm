@@ -59,6 +59,10 @@ class ActionsFixito extends CommonHookActions
 			$this->resprints .= '<style>body, .button, input, select, textarea { font-family: Vazirmatn, Tahoma, sans-serif !important; }</style>'."\n";
 		}
 
+		if (getDolGlobalString('FIXITO_MODERN_UI')) {
+			$this->resprints .= '<meta name="theme-color" content="#1e3a8a">'."\n";
+		}
+
 		return 0;
 	}
 

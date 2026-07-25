@@ -14,7 +14,6 @@ require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 require_once __DIR__.'/lib/fixito.lib.php';
 
 /**
- * @var Conf $conf
  * @var DoliDB $db
  * @var Form $form
  * @var Translate $langs
@@ -81,12 +80,15 @@ if ($action === 'add') {
 	}
 }
 
-llxHeader('', $langs->trans('FixitoQuickSale'));
+llxHeader('', $langs->trans('FixitoQuickSale'), '', '', 0, 0, '', '', '', fixito_llx_body_class('fixito-page fixito-form-page'));
 
-print load_fiche_titre($langs->trans('FixitoQuickSale'), '', 'fa-shopping-cart');
-print '<div class="info">'.$langs->trans('FixitoHelpQuickSale').'</div>';
+require_once __DIR__.'/lib/fixito_hub.lib.php';
+fixito_print_hub_nav($langs, 'sales');
 
-print '<form class="fixito-form" method="POST" action="'.$_SERVER['PHP_SELF'].'">';
+print '<div class="fixito-page-content">';
+print '<p class="fixito-lead-hint">'.$langs->trans('FixitoHelpQuickSale').'</p>';
+print '<div class="fixito-form-panel fixito-form">';
+print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
 print '<input type="hidden" name="token" value="'.newToken().'">';
 print '<input type="hidden" name="action" value="add">';
 
@@ -128,6 +130,7 @@ print '</table>';
 
 print '<div class="center"><input class="button" type="submit" value="'.$langs->trans('FixitoSaveSale').'"></div>';
 print '</form>';
+print '</div></div>';
 
 llxFooter();
 $db->close();

@@ -13,7 +13,6 @@ require_once __DIR__.'/lib/fixito.lib.php';
 require_once __DIR__.'/lib/fixito_hub.lib.php';
 
 /**
- * @var DoliDB $db
  * @var Translate $langs
  * @var User $user
  */
@@ -24,12 +23,16 @@ if (!$user->hasRight('fixito', 'fixito', 'read')) {
 	accessforbidden();
 }
 
-llxHeader('', $langs->trans('FixitoDashboard'), '', '', 0, 0, '', '', '', fixito_llx_body_class('fixito-page fixito-dashboard-page'));
+$branch = GETPOST('branch', 'aZ09');
+if ($branch === '') {
+	$branch = 'sales';
+}
 
-fixito_print_hub_nav($langs, '');
+llxHeader('', $langs->trans('FixitoHubTitle'), '', '', 0, 0, '', '', '', fixito_llx_body_class('fixito-page fixito-hub-page'));
+
+fixito_print_hub_nav($langs, $branch);
 print '<div class="fixito-page-content">';
-fixito_print_dashboard($langs, $db);
+fixito_print_hub_branch($langs, $branch);
 print '</div>';
 
 llxFooter();
-$db->close();
