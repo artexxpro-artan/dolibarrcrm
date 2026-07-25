@@ -5,7 +5,21 @@ if (php_sapi_name() !== 'cli') {
 	die('CLI only');
 }
 
-$res = 0;
+if (!defined('NOTOKENRENEWAL')) {
+	define('NOTOKENRENEWAL', '1');
+}
+if (!defined('NOREQUIREUSER')) {
+	define('NOREQUIREUSER', '1');
+}
+if (!defined('NOREQUIREMENU')) {
+	define('NOREQUIREMENU', '1');
+}
+if (!defined('NOREQUIREHTML')) {
+	define('NOREQUIREHTML', '1');
+}
+if (!defined('NOCSRFCHECK')) {
+	define('NOCSRFCHECK', '1');
+}
 if (file_exists(__DIR__.'/../../../main.inc.php')) {
 	$res = include __DIR__.'/../../../main.inc.php';
 }
