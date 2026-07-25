@@ -1,0 +1,21 @@
+CREATE TABLE llx_fixito_warranty(
+	rowid integer AUTO_INCREMENT PRIMARY KEY,
+	entity integer DEFAULT 1 NOT NULL,
+	ref varchar(128) NOT NULL,
+	fk_soc integer,
+	fk_product integer,
+	serial_number varchar(128),
+	label varchar(255),
+	date_sale date,
+	date_warranty_end date,
+	warranty_months integer DEFAULT 12,
+	fk_commande integer,
+	fk_facture integer,
+	note_public text,
+	note_private text,
+	date_creation datetime NOT NULL,
+	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	fk_user_creat integer NOT NULL,
+	fk_user_modif integer,
+	status smallint DEFAULT 1 NOT NULL
+) ENGINE=innodb;
