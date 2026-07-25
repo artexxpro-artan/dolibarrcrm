@@ -1,0 +1,25 @@
+{
+  "slug": "dolibarrcrm",
+  "name": "Dolibarr CRM Artexx",
+  "description": "Dolibarr + Fixito — CRM ایرانی (معامله، فروش، گارانتی)",
+  "repository": "https://github.com/artexxpro-artan/dolibarrcrm",
+  "branch": "develop",
+  "compose": "docker-compose.fixito.yml",
+  "workdir": "/opt/cicd/apps/dolibarrcrm",
+  "service": "web",
+  "port": 80,
+  "service_port": 80,
+  "domains": ["dolibarrcrm.artexxpro.ir"],
+  "health": "https://dolibarrcrm.artexxpro.ir/",
+  "health_path": "/",
+  "network": "traefik-public",
+  "traefik_output": "fixito-dolibarrcrm.yml",
+  "traefik_generate": true,
+  "containers": ["dolibarrcrm"],
+  "source": "fixito",
+  "git": {
+    "path": "/opt/cicd/apps/dolibarrcrm",
+    "branch": "develop",
+    "remote": "https://github.com/artexxpro-artan/dolibarrcrm"
+  }
+}

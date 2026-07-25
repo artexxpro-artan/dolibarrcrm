@@ -1,0 +1,64 @@
+name: dolibarrcrm
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: dolibarrcrm-mariadb
+    restart: unless-stopped
+    env_file:
+      - .env.docker.artexxpro
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: dolibarr
+    volumes:
+      - dolibarrcrm_db:/var/lib/mysql
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+
+  web:
+    image: dolibarr/dolibarr:20
+    container_name: dolibarrcrm
+    restart: unless-stopped
+    env_file:
+      - .env.docker.artexxpro
+    environment:
+      DOLI_DB_HOST: mariadb
+      DOLI_DB_NAME: dolibarr
+      DOLI_DB_USER: root
+      DOLI_DB_PASSWORD: ${DB_PASSWORD}
+      DOLI_URL_ROOT: https://dolibarrcrm.artexxpro.ir
+      DOLI_ADMIN_LOGIN: admin
+      DOLI_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      DOLI_LANGS: fa_IR
+      DOLI_PROD: "1"
+      PHP_INI_DATE_TIMEZONE: Asia/Tehran
+    volumes:
+      - dolibarrcrm_documents:/var/www/documents
+      - ./htdocs/custom:/var/www/html/custom
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/ >/dev/null || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 12
+      start_period: 180s
+    networks:
+      - internal
+      - traefik-public
+
+networks:
+  internal:
+  traefik-public:
+    external: true
+
+volumes:
+  dolibarrcrm_db:
+  dolibarrcrm_documents:
