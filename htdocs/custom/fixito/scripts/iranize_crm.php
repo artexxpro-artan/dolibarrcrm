@@ -5,6 +5,9 @@ if (php_sapi_name() !== 'cli') {
 	die('CLI only');
 }
 
+if (!defined('NOLOGIN')) {
+	define('NOLOGIN', '1');
+}
 if (!defined('NOTOKENRENEWAL')) {
 	define('NOTOKENRENEWAL', '1');
 }
@@ -20,6 +23,7 @@ if (!defined('NOREQUIREHTML')) {
 if (!defined('NOCSRFCHECK')) {
 	define('NOCSRFCHECK', '1');
 }
+$res = 0;
 if (file_exists(__DIR__.'/../../../main.inc.php')) {
 	$res = include __DIR__.'/../../../main.inc.php';
 }
